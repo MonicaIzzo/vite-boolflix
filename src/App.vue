@@ -15,25 +15,20 @@ axios.get('https://api.themoviedb.org/3/', config)
 import axios from 'axios';
 import { api } from './data';
 import { store } from './data/store';
-import SearchForm from './components/SearchForm.vue';
-import ProductionCard from './components/ProductionCard.vue';
+import AppHeader from './components/AppHeader.vue';
+import AppMain from './components/AppMain.vue';
 
 export default {
     name: 'Boolflix',
-    components: { SearchForm, ProductionCard },
-    data() {
-        return {
-            store,
-            titleFilter: ''
-        }
-    },
+    components: { AppHeader, AppMain },
+
     methods: {
         setTitleFilter(term) {
-            this.titleFilter = term;
+            store.titleFilter = term;
         },
         searchProductions() {
-            console.log(this.titleFilter);
-            if (!this.titleFilter) {
+            console.log(store.titleFilter);
+            if (!store.titleFilter) {
                 store.movies = [];
                 store.series = [];
                 return;
@@ -41,12 +36,12 @@ export default {
 
 
 
-            axios.get(`${api.baseUri}/search/movie?api_key=${api.key}&language=${api.language}&query=${this.titleFilter}`)
+            axios.get(`${api.baseUri}/search/movie?api_key=${api.key}&language=${api.language}&query=${store.titleFilter}`)
                 .then((res) => {
                     store.movies = res.data.results;
                 });
 
-            axios.get(`${api.baseUri}/search/tv?api_key=${api.key}&language=${api.language}&query=${this.titleFilter}`)
+            axios.get(`${api.baseUri}/search/tv?api_key=${api.key}&language=${api.language}&query=${store.titleFilter}`)
                 .then((res) => {
                     store.series = res.data.results;
                 });
@@ -58,15 +53,8 @@ export default {
 
 <template>
     <!--qui HTML-->
-    <SearchForm @term-change="setTitleFilter" @form-submit="searchProductions" />
-    <section id="movies">
-        <h2>Movies</h2>
-        <ProductionCard v-for="movie in store.movies" :key="movie.id" :item="movie" />
-    </section>
-    <section id="series">
-        <h2>Series</h2>
-        <ProductionCard v-for="serie in store.series" :key="serie.id" :item="serie" />
-    </section>
+    <AppHeader @search-submit="searchProductions" />
+    <AppMain />
 </template>
 
 <style>
