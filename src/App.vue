@@ -40,12 +40,12 @@ export default {
 
 
 
-            axios.get(`${api.baseUrl}/search/movie?api_key=${api.key}&language=${api.language}&query=${this.titleFilter}`)
+            axios.get(`${api.baseUri}/search/movie?api_key=${api.key}&language=${api.language}&query=${this.titleFilter}`)
                 .then((res) => {
                     store.movies = res.data.results;
                 });
 
-            axios.get(`${api.baseUrl}/search/tv?api_key=${api.key}&language=${api.language}&query=${this.titleFilter}`)
+            axios.get(`${api.baseUri}/search/tv?api_key=${api.key}&language=${api.language}&query=${this.titleFilter}`)
                 .then((res) => {
                     store.series = res.data.results;
                 });
