@@ -4,3 +4,9 @@ const api = {
     language: 'it_IT'
 }
 export { api }; 
+
+
+export const pics = {
+    prefix:'https://image.tmdb.org/t/p/w342',
+    placeholder: 'http://marcolanci.it/utils/poster-placeholder.png'
+}
